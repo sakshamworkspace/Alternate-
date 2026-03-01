@@ -69,23 +69,31 @@ body {
 </div>
 
 <script>
-/* Encoded Source URL */
-const _0xV1 = "aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDg=";
+/**
+ * Encoded Source URL: https://jiogo.pages.dev/?id=1106
+ * Base64: aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDY=
+ */
+const _0xV1 = "aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDY=";
 
 window.onload = function() {
     const now = new Date();
+    
     // Expiry Date: March 9, 2026
+    // Note: Month is 0-indexed in JS (2 = March)
     const expiry = new Date(2026, 2, 9, 23, 59, 59);
 
     const viewport = document.getElementById('viewport');
 
+    // Check if the link has expired
     if (now > expiry) {
         viewport.innerHTML = "<div class='expired-msg'>Stream Link Expired</div>";
         return;
     }
 
+    // Decode the Base64 URL
     const src = atob(_0xV1);
     
+    // Inject the player
     viewport.innerHTML = `
         <iframe 
             id="stream-player"
@@ -98,9 +106,13 @@ window.onload = function() {
     `;
 };
 
-/* Basic DevTools Protection */
+/* Basic DevTools Protection: Blocks F12, Ctrl+Shift+I, Ctrl+Shift+J, and Ctrl+U */
 document.onkeydown = (e) => {
-    if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    if(e.keyCode == 123 || 
+      (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
+      (e.ctrlKey && e.keyCode == 85)) {
+        return false;
+    }
 };
 </script>
 
