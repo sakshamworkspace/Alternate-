@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Star Sports 1 Hindi | Prime</title>
+<title>Live Stream</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
@@ -21,30 +21,12 @@ body {
 .main-ui { 
     display: flex; 
     flex-direction: column; 
+    justify-content: center;
     height: 100vh; 
     max-width: 900px; 
     margin: 0 auto; 
     padding: 15px; 
 }
-
-.header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 10px 0; 
-}
-
-.logo { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
-.live-tag { 
-    background: #ff0000; 
-    padding: 4px 12px; 
-    border-radius: 4px; 
-    font-size: 11px; 
-    font-weight: bold; 
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
 .video-container { 
     width: 100%; 
@@ -66,14 +48,15 @@ body {
     border: none; 
 }
 
-.status-box {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    font-size: 12px;
-    color: #888;
-    line-height: 1.4;
+.expired-msg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 </style>
 </head>
@@ -81,38 +64,28 @@ body {
 <body oncontextmenu="return false">
 
 <div class="main-ui">
-  <div class="header">
-    <div class="logo">STAR <span style="color:var(--p)">SPORTS 1 HINDI</span></div>
-    <div class="live-tag">LIVE</div>
-  </div>
-
   <div class="video-container" id="viewport">
       </div>
-
-  <div class="status-box">
-      <b>Secure Stream:</b> Ads and popups are restricted. <br>
-      <i>If the video fails to load, please refresh the page.</i>
-  </div>
 </div>
 
 <script>
-// Encoded Prime Source
-const _0xP1 = "aHR0cHM6Ly9hbGxyb3VuZGVyZnVjay52ZXJjZWwuYXBwL2NoYW5uZWwvcHJpbWUuaHRtbA==";
+/* Encoded Source URL */
+const _0xV1 = "aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDg=";
 
 window.onload = function() {
     const now = new Date();
-    // Expiry Check (March 9, 2026)
-    const expiry = new Date(2026, 2, 9, 6, 0, 0);
+    // Expiry Date: March 9, 2026
+    const expiry = new Date(2026, 2, 9, 23, 59, 59);
 
-    if (now >= expiry) {
-        document.getElementById('viewport').innerHTML = "<div style='text-align:center;padding-top:20px;'>Link Expired</div>";
+    const viewport = document.getElementById('viewport');
+
+    if (now > expiry) {
+        viewport.innerHTML = "<div class='expired-msg'>Stream Link Expired</div>";
         return;
     }
 
-    const src = atob(_0xP1);
-    const viewport = document.getElementById('viewport');
+    const src = atob(_0xV1);
     
-    // Balanced Sandbox: Fixes "Failed to load" while blocking popups
     viewport.innerHTML = `
         <iframe 
             id="stream-player"
@@ -125,7 +98,7 @@ window.onload = function() {
     `;
 };
 
-// Anti-DevTools shortcuts
+/* Basic DevTools Protection */
 document.onkeydown = (e) => {
     if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
 };
