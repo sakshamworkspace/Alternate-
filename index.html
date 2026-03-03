@@ -70,10 +70,10 @@ body {
 
 <script>
 /**
- * Encoded Source URL: https://allrounder-live.pages.dev/channel/hotstar
- * Base64: aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L2NoYW5uZWwvaG90c3Rhcg==
+ * Encoded Source URL: https://jiogo.pages.dev/?id=1106
+ * Base64: aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDY=
  */
-const _0xV1 = "aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L2NoYW5uZWwvaG90c3Rhcg==";
+const _0xV1 = "aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDY=";
 
 window.onload = function() {
     const now = new Date();
@@ -92,7 +92,7 @@ window.onload = function() {
     // Decode the Base64 URL
     const src = atob(_0xV1);
     
-    // Inject the player
+    // ANTI-AD PROTECTION: Restricted sandbox to block popups/redirects
     viewport.innerHTML = `
         <iframe 
             id="stream-player"
@@ -105,7 +105,7 @@ window.onload = function() {
     `;
 };
 
-/* Basic DevTools Protection */
+/* Basic DevTools Protection: Blocks F12 and Ctrl+U shortcuts */
 document.onkeydown = (e) => {
     if(e.keyCode == 123 || 
       (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
