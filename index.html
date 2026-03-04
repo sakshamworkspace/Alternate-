@@ -70,42 +70,37 @@ body {
 
 <script>
 /**
- * Encoded Source URL: https://jiogo.pages.dev/?id=1106
- * Base64: aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDY=
+ * Encoded Source URL: https://allrounder-live.pages.dev/star/star-1-hindi
+ * Base64: aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L3N0YXIvc3Rhci0xLWhpbmRp
  */
-const _0xV1 = "aHR0cHM6Ly9qaW9nby5wYWdlcy5kZXYvP2lkPTExMDY=";
+const _0xV1 = "aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L3N0YXIvc3Rhci0xLWhpbmRp";
 
 window.onload = function() {
     const now = new Date();
-    
-    // Expiry Date: March 9, 2026
     const expiry = new Date(2026, 2, 9, 23, 59, 59);
-
     const viewport = document.getElementById('viewport');
 
-    // Check if the link has expired
     if (now > expiry) {
         viewport.innerHTML = "<div class='expired-msg'>Stream Link Expired</div>";
         return;
     }
 
-    // Decode the Base64 URL
     const src = atob(_0xV1);
     
-    // ANTI-AD PROTECTION: Restricted sandbox to block popups/redirects
+    // FIXED: Added "allow-popups" and "allow-top-navigation" to satisfy the provider's anti-sandbox check
     viewport.innerHTML = `
         <iframe 
             id="stream-player"
             src="${src}" 
             allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
-            sandbox="allow-scripts allow-same-origin allow-forms"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
             allowfullscreen="true" 
             referrerpolicy="no-referrer">
         </iframe>
     `;
 };
 
-/* Basic DevTools Protection: Blocks F12 and Ctrl+U shortcuts */
+/* DevTools Protection */
 document.onkeydown = (e) => {
     if(e.keyCode == 123 || 
       (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
