@@ -70,10 +70,10 @@ body {
 
 <script>
 /**
- * Encoded Source URL: https://allrounder-live.pages.dev/star/star-1-hindi
- * Base64: aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L3N0YXIvc3Rhci0xLWhpbmRp
+ * Encoded Source URL: https://allrounder-live.pages.dev/channel/hotstar
+ * Base64: aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L2NoYW5uZWwvaG90c3Rhcg==
  */
-const _0xV1 = "aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L3N0YXIvc3Rhci0xLWhpbmRp";
+const _0xV1 = "aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L2NoYW5uZWwvaG90c3Rhcg==";
 
 window.onload = function() {
     const now = new Date();
@@ -87,20 +87,28 @@ window.onload = function() {
 
     const src = atob(_0xV1);
     
-    // FIXED: Added "allow-popups" and "allow-top-navigation" to satisfy the provider's anti-sandbox check
+    // AD-FIX: We allow popups so the player doesn't error out, 
+    // but we block "top-navigation" to prevent the ad from changing your current page.
     viewport.innerHTML = `
         <iframe 
             id="stream-player"
             src="${src}" 
             allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
             allowfullscreen="true" 
             referrerpolicy="no-referrer">
         </iframe>
     `;
+
+    // Prevent popups from stealing focus
+    window.onblur = function() {
+        setTimeout(function() {
+            window.focus();
+        }, 0);
+    };
 };
 
-/* DevTools Protection */
+/* Basic Protection */
 document.onkeydown = (e) => {
     if(e.keyCode == 123 || 
       (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
