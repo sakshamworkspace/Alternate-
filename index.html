@@ -36,7 +36,6 @@ body {
     border-radius: 12px; 
     overflow: hidden; 
     border: 1px solid rgba(255,255,255,0.1); 
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
 #stream-player { 
@@ -48,15 +47,16 @@ body {
     border: none; 
 }
 
-.expired-msg {
+/* AD-KILLER SHIELD: Intercepts ad-triggering clicks */
+#ad-shield {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: 600;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background: rgba(0,0,0,0);
+    cursor: pointer;
 }
 </style>
 </head>
@@ -65,54 +65,48 @@ body {
 
 <div class="main-ui">
   <div class="video-container" id="viewport">
+      <div id="ad-shield" title="Click twice to play"></div>
       </div>
 </div>
 
 <script>
 /**
- * Encoded Source URL: https://allrounder-live.pages.dev/channel/hotstar
- * Base64: aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L2NoYW5uZWwvaG90c3Rhcg==
+ * Target URL: https://allrounder-live.pages.dev/star/star-1-hindi
  */
-const _0xV1 = "aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L2NoYW5uZWwvaG90c3Rhcg==";
+const _0xV1 = "aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L3N0YXIvc3Rhci0xLWhpbmRp";
 
 window.onload = function() {
-    const now = new Date();
-    const expiry = new Date(2026, 2, 9, 23, 59, 59);
     const viewport = document.getElementById('viewport');
-
-    if (now > expiry) {
-        viewport.innerHTML = "<div class='expired-msg'>Stream Link Expired</div>";
-        return;
-    }
-
+    const shield = document.getElementById('ad-shield');
     const src = atob(_0xV1);
-    
-    // AD-FIX: We allow popups so the player doesn't error out, 
-    // but we block "top-navigation" to prevent the ad from changing your current page.
-    viewport.innerHTML = `
+
+    // FIX FOR ERRORS:
+    // We remove the sandbox attribute entirely to stop "Disable Sandbox" messages.
+    // We allow-top-navigation to prevent "Access Denied" crashes.
+    viewport.innerHTML += `
         <iframe 
             id="stream-player"
             src="${src}" 
             allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            allowfullscreen="true" 
-            referrerpolicy="no-referrer">
+            allowfullscreen="true">
         </iframe>
     `;
 
-    // Prevent popups from stealing focus
-    window.onblur = function() {
-        setTimeout(function() {
-            window.focus();
-        }, 0);
+    // AD PROTECTION LOGIC:
+    // The shield catches the first 2 clicks (which are usually invisible ads).
+    let clickCount = 0;
+    shield.onclick = function(e) {
+        clickCount++;
+        // On the second click, we remove the shield so you can control the video.
+        if (clickCount >= 2) {
+            shield.style.display = 'none';
+        }
     };
 };
 
-/* Basic Protection */
+/* Prevent keyboard shortcuts to view source */
 document.onkeydown = (e) => {
-    if(e.keyCode == 123 || 
-      (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
-      (e.ctrlKey && e.keyCode == 85)) {
+    if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
         return false;
     }
 };
