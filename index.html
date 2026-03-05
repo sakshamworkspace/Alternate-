@@ -15,7 +15,6 @@ body {
     background: var(--b); 
     color: #fff; 
     overflow: hidden; 
-    user-select: none; 
 }
 
 .main-ui { 
@@ -46,70 +45,26 @@ body {
     height: 100%; 
     border: none; 
 }
-
-/* AD-KILLER SHIELD: Intercepts ad-triggering clicks */
-#ad-shield {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    background: rgba(0,0,0,0);
-    cursor: pointer;
-}
 </style>
 </head>
 
-<body oncontextmenu="return false">
+<body>
 
 <div class="main-ui">
   <div class="video-container" id="viewport">
-      <div id="ad-shield" title="Click twice to play"></div>
-      </div>
+      <iframe 
+          id="stream-player"
+          src="https://allrounder-live.pages.dev/star/star-1-hindi" 
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
+          allowfullscreen="true">
+      </iframe>
+  </div>
 </div>
 
 <script>
-/**
- * Target URL: https://allrounder-live.pages.dev/star/star-1-hindi
- */
-const _0xV1 = "aHR0cHM6Ly9hbGxyb3VuZGVyLWxpdmUucGFnZXMuZGV2L3N0YXIvc3Rhci0xLWhpbmRp";
-
-window.onload = function() {
-    const viewport = document.getElementById('viewport');
-    const shield = document.getElementById('ad-shield');
-    const src = atob(_0xV1);
-
-    // FIX FOR ERRORS:
-    // We remove the sandbox attribute entirely to stop "Disable Sandbox" messages.
-    // We allow-top-navigation to prevent "Access Denied" crashes.
-    viewport.innerHTML += `
-        <iframe 
-            id="stream-player"
-            src="${src}" 
-            allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
-            allowfullscreen="true">
-        </iframe>
-    `;
-
-    // AD PROTECTION LOGIC:
-    // The shield catches the first 2 clicks (which are usually invisible ads).
-    let clickCount = 0;
-    shield.onclick = function(e) {
-        clickCount++;
-        // On the second click, we remove the shield so you can control the video.
-        if (clickCount >= 2) {
-            shield.style.display = 'none';
-        }
-    };
-};
-
-/* Prevent keyboard shortcuts to view source */
-document.onkeydown = (e) => {
-    if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
-        return false;
-    }
-};
+/* Note: I have removed the "Ad Shield" and "Sandbox" restrictions. 
+  This allows the player to load its own scripts and data without interference.
+*/
 </script>
 
 </body>
