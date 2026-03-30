@@ -47,19 +47,24 @@ body {
     height: 100%; 
     border: none; 
 }
+
+/* Expiry Message Styling */
+.expired-msg {
+    text-align: center;
+    color: #ff4444;
+    font-weight: bold;
+}
 </style>
 </head>
 
 <body oncontextmenu="return false">
 
-<div class="main-ui">
+<div class="main-ui" id="app-container">
   <div class="video-container" id="viewport">
       <iframe 
           id="stream-player"
-          src="https://allrounder-live.pages.dev/channel/hotstar" 
+          src="https://livetv7.pages.dev/4?id=1HD" 
           allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
-          /* This configuration stops the ad from refreshing your page 
-             while allowing the video player to load its data. */
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
           allowfullscreen="true">
       </iframe>
@@ -67,6 +72,27 @@ body {
 </div>
 
 <script>
+/**
+ * Expiry Logic
+ * Target Date: June 1, 2026
+ */
+const checkExpiry = () => {
+    const expiryDate = new Date('2026-06-01');
+    const currentDate = new Date();
+
+    if (currentDate >= expiryDate) {
+        document.getElementById('app-container').innerHTML = `
+            <div class="expired-msg">
+                <h2>Access Expired</h2>
+                <p>This stream link expired on June 1, 2026.</p>
+            </div>
+        `;
+    }
+};
+
+// Run check on load
+checkExpiry();
+
 /* Simple security for the source code */
 document.onkeydown = (e) => {
     if(e.keyCode == 123 || 
