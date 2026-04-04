@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Live Stream</title>
+<title>Star Sports 1 Hindi | Secure Player</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
@@ -11,7 +11,7 @@
 
 body { 
     margin: 0; 
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
     background: var(--b); 
     color: #fff; 
     overflow: hidden; 
@@ -21,24 +21,42 @@ body {
 .main-ui { 
     display: flex; 
     flex-direction: column; 
-    justify-content: center;
     height: 100vh; 
-    max-width: 900px; 
-    margin: 0 auto; 
     padding: 15px; 
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 0; 
+    margin-bottom: 5px;
+}
+
+.logo { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
+.live-tag { 
+    background: #ff0000; 
+    padding: 4px 12px; 
+    border-radius: 4px; 
+    font-size: 11px; 
+    font-weight: bold; 
+    text-transform: uppercase;
 }
 
 .video-container { 
     width: 100%; 
     position: relative; 
     padding-top: 56.25%; 
-    background: #000; 
+    background: #111; 
     border-radius: 12px; 
     overflow: hidden; 
     border: 1px solid rgba(255,255,255,0.1); 
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
+/* The Player */
 #stream-player { 
     position: absolute; 
     top: 0; 
@@ -46,60 +64,115 @@ body {
     width: 100%; 
     height: 100%; 
     border: none; 
+    display: none; /* Hidden until button click */
 }
 
-/* Expiry Message Styling */
-.expired-msg {
-    text-align: center;
-    color: #ff4444;
+/* Blur Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: 0.4s ease;
+}
+
+.start-btn {
+    background: var(--p);
+    color: #000;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
     font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(0, 255, 106, 0.4);
+    transition: 0.2s;
+}
+
+.start-btn:active {
+    transform: scale(0.95);
+}
+
+.error-msg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    z-index: 20;
 }
 </style>
 </head>
 
 <body oncontextmenu="return false">
 
-<div class="main-ui" id="app-container">
+<div class="main-ui">
+  <div class="header">
+    <div class="logo">STAR <span style="color:var(--p)">SPORTS 1 HINDI</span></div>
+    <div class="live-tag">LIVE</div>
+  </div>
+
   <div class="video-container" id="viewport">
+      <!-- Overlay to hide initial thumbnail -->
+      <div class="overlay" id="player-overlay">
+          <button class="start-btn" onclick="startStream()">Start Stream</button>
+          <p style="font-size:10px; color:#aaa; margin-top:10px;">Click to join the live broadcast</p>
+      </div>
+
       <iframe 
           id="stream-player"
-          src="https://livetv7.pages.dev/4?id=1HD" 
+          src="" 
           allow="autoplay; encrypted-media; fullscreen; picture-in-picture" 
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          allowfullscreen="true">
+          allowfullscreen="true" 
+          referrerpolicy="no-referrer">
       </iframe>
   </div>
 </div>
 
 <script>
-/**
- * Expiry Logic
- * Target Date: June 1, 2026
- */
-const checkExpiry = () => {
-    const expiryDate = new Date('2026-06-01');
-    const currentDate = new Date();
+// Encoded source: Https://livetv7.pages.dev/4?id=1HD
+const _0xH1 = "SHR0cHM6Ly9saXZldHY3LnBhZ2VzLmRldi80P2lkPTFIRA==";
 
-    if (currentDate >= expiryDate) {
-        document.getElementById('app-container').innerHTML = `
-            <div class="expired-msg">
-                <h2>Access Expired</h2>
-                <p>This stream link expired on June 1, 2026.</p>
-            </div>
-        `;
-    }
-};
+// Expiry Logic: June 1, 2026
+const now = new Date();
+const expiry = new Date(2026, 5, 1, 0, 0, 0);
 
-// Run check on load
-checkExpiry();
+if (now >= expiry) {
+    document.getElementById('viewport').innerHTML = `
+        <div class="error-msg">
+            <p style="font-size: 18px; color: #ff4444;">Stream Link Expired</p>
+        </div>`;
+}
 
-/* Simple security for the source code */
+function startStream() {
+    const player = document.getElementById('stream-player');
+    const overlay = document.getElementById('player-overlay');
+    
+    // Set the source and show the player
+    player.src = atob(_0xH1);
+    player.style.display = 'block';
+    
+    // Hide the overlay
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 400);
+}
+
+// Block Keyboard Inspect Tools
 document.onkeydown = (e) => {
-    if(e.keyCode == 123 || 
-      (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
-      (e.ctrlKey && e.keyCode == 85)) {
-        return false;
-    }
+    if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
 };
 </script>
 
