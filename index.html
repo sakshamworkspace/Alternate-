@@ -21,8 +21,10 @@ body {
 .main-ui { 
     display: flex; 
     flex-direction: column; 
+    /* This centers the content vertically */
+    justify-content: center; 
     height: 100vh; 
-    padding: 15px; 
+    padding: 20px; 
     max-width: 900px;
     margin: 0 auto;
 }
@@ -32,7 +34,8 @@ body {
     justify-content: space-between; 
     align-items: center; 
     padding: 10px 0; 
-    margin-bottom: 5px;
+    /* Reduced margin to keep it tight with the player */
+    margin-bottom: 10px; 
 }
 
 .logo { font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
@@ -48,15 +51,14 @@ body {
 .video-container { 
     width: 100%; 
     position: relative; 
-    padding-top: 56.25%; 
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
     background: #111; 
     border-radius: 12px; 
     overflow: hidden; 
     border: 1px solid rgba(255,255,255,0.1); 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
 }
 
-/* The Player */
 #stream-player { 
     position: absolute; 
     top: 0; 
@@ -64,17 +66,16 @@ body {
     width: 100%; 
     height: 100%; 
     border: none; 
-    display: none; /* Hidden until button click */
+    display: none; 
 }
 
-/* Blur Overlay */
 .overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     display: flex;
@@ -89,7 +90,7 @@ body {
     background: var(--p);
     color: #000;
     border: none;
-    padding: 12px 28px;
+    padding: 14px 32px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 50px;
@@ -99,9 +100,7 @@ body {
     transition: 0.2s;
 }
 
-.start-btn:active {
-    transform: scale(0.95);
-}
+.start-btn:active { transform: scale(0.95); }
 
 .error-msg {
     position: absolute;
@@ -110,7 +109,6 @@ body {
     transform: translate(-50%, -50%);
     text-align: center;
     width: 100%;
-    z-index: 20;
 }
 </style>
 </head>
@@ -118,16 +116,16 @@ body {
 <body oncontextmenu="return false">
 
 <div class="main-ui">
+  <!-- Content inside here is now vertically and horizontally centered -->
   <div class="header">
     <div class="logo">STAR <span style="color:var(--p)">SPORTS 1 HINDI</span></div>
     <div class="live-tag">LIVE</div>
   </div>
 
   <div class="video-container" id="viewport">
-      <!-- Overlay to hide initial thumbnail -->
       <div class="overlay" id="player-overlay">
           <button class="start-btn" onclick="startStream()">Start Stream</button>
-          <p style="font-size:10px; color:#aaa; margin-top:10px;">Click to join the live broadcast</p>
+          <p style="font-size:11px; color:#aaa; margin-top:12px;">Click to join the live broadcast</p>
       </div>
 
       <iframe 
@@ -141,12 +139,10 @@ body {
 </div>
 
 <script>
-// Encoded source: Https://livetv7.pages.dev/4?id=1HD
 const _0xH1 = "SHR0cHM6Ly9saXZldHY3LnBhZ2VzLmRldi80P2lkPTFIRA==";
 
-// Expiry Logic: June 1, 2026
 const now = new Date();
-const expiry = new Date(2026, 5, 1, 0, 0, 0);
+const expiry = new Date(2026, 5, 1);
 
 if (now >= expiry) {
     document.getElementById('viewport').innerHTML = `
@@ -158,19 +154,12 @@ if (now >= expiry) {
 function startStream() {
     const player = document.getElementById('stream-player');
     const overlay = document.getElementById('player-overlay');
-    
-    // Set the source and show the player
     player.src = atob(_0xH1);
     player.style.display = 'block';
-    
-    // Hide the overlay
     overlay.style.opacity = '0';
-    setTimeout(() => {
-        overlay.style.display = 'none';
-    }, 400);
+    setTimeout(() => { overlay.style.display = 'none'; }, 400);
 }
 
-// Block Keyboard Inspect Tools
 document.onkeydown = (e) => {
     if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
 };
